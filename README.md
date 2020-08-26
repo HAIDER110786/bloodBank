@@ -1,7 +1,6 @@
 # BLOOD BANK APPLICATION
 
 
-A little info about your project and/ or overview that explains what the project is about.
 This project is made by me as a university project. I was a C# guy but seeing the usefulness of javascript i wanted to get into javascript with the eventual goal of becoming a MERN stack developer. This project gave me a proper launcing pad for getting into javascript from C#.
 
 ## Motivation
