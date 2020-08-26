@@ -1,0 +1,76 @@
+body{
+    margin: 0;
+    font-family:sans-serif;
+    color: white;
+}
+
+.loginDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: sans-serif;
+    background-color:rgb(219, 13, 13);
+}
+
+.loginDiv h1{
+    margin: 0px;
+    color: rgb(219, 13, 13);
+    font-weight: 200;
+}
+
+.loginDiv form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 50%;
+    background-color: white;
+    padding:20px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.loginDiv form input{
+    height: 30px;
+    width: 500px;
+    border-radius: 10px;
+    border: 1px solid red;
+    padding: 5px 13px;
+    font: 15px;
+}
+
+.loginDiv form input:focus{
+    outline: none;
+}
+
+.loginDiv form button{
+    background-color: rgb(221, 47, 47);
+    color: white;
+    border-radius: 30px;
+    font-size: 20px;
+    height: 42px;
+    width: 100%;
+    border: none;
+}
+
+.loginDiv form p{
+    color: red;
+    margin: 0;
+}
+
+.loginDiv form p span{
+    text-decoration: none;
+    background-color:white;
+    border: 1px solid rgb(221, 47, 47);
+    color: red;
+    padding: 5px;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
+.loginDiv form p span:hover{
+    background-color:rgb(221, 47, 47);
+    color: white;
+}

@@ -1,0 +1,81 @@
+.signupDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+    background-color:rgb(219, 13, 13);
+}
+
+.signupDiv h1{
+    margin: 0px;
+    color: rgb(219, 13, 13);
+    font-weight: 200;
+}
+
+.signupDiv form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    background-color: white;
+    padding:20px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.signupDiv form input{
+    height: 30px;
+    width: 500px;
+    border-radius: 10px;
+    border: 1px solid red;
+    padding: 5px 13px;
+    font: 15px;
+    color-interpolation-filters: white;
+}
+
+.signupDiv form input:focus{
+    outline: none;
+}
+
+.signupDiv form button{
+    background-color: rgb(221, 47, 47);
+    color: white;
+    border-radius: 30px;
+    font-size: 20px;
+    height: 42px;
+    width: 100%;
+    border: none;
+}
+
+.signupDiv form select{
+    width: 100%;
+    height: 30px;
+    border: 1px solid red;
+    padding: 0px 10px;
+    font: 15px;
+    border-radius: 10px;
+    height: 42px;
+}
+
+.signupDiv form select option[disabled]{
+    display: none;
+}
+
+.signupDiv form select:focus{
+    outline: none;
+}
+
+.signupDiv form button:focus{
+    outline: none;
+}
+
+.signupDiv .backArrow{
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    font-size:30px;
+    color: white;
+    cursor: pointer;
+}
