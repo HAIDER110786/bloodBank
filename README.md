@@ -1,56 +1,33 @@
-Project title
+#BLOOD BANK APPLICATION
 A little info about your project and/ or overview that explains what the project is about.
+This project is made by me as a university project. I was a C# guy but seeing the usefulness of javascript i wanted to get into javascript with the eventual goal of becoming a MERN stack developer. This project gave me a proper launcing pad for getting into javascript from C#.
 
-Motivation
-A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
+##Motivation
+Learning a new language especially when you are shifting from one of your favourite language (C# in my case) can be tough. Now in a university project, one has to deliver the application by hook or by crooks, so i thought that when the pressure would be on me maybe i will learn the MERN stack quicker than normal and in an application like Blood Bank i would learn a lot of new things along the way which is exactly what happen and hence this application is made 
 
-Build status
-Build status of continus integration i.e. travis, appveyor etc. Ex. -
-
-Build Status Windows Build Status
-
-Code style
-If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
-
-js-standard-style
-
-Screenshots
+##Screenshots
 Include logo/demo screenshot etc.
 
-Tech/framework used
-Ex. -
+##Tech/framework used
+This project uses the MERN stack which is Mongodb, ExpressJS, ReactJS, and NodeJS.
 
-Built with
+###Built with
+This project is built in vs code on the Windows 10 platform
 
-Electron
-Features
-What makes your project stand out?
+##Features
+In this project one can:
+1. Comment on other people profile
+2. Change the profile picture
+3. Request and decline blood donation request
 
-Code Example
-Show what the library does as concisely as possible, developers should be able to figure out how your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
-Installation
+##Installation and Usage
 Provide step by step series of examples and explanations about how to get a development env running.
 
-API Reference
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+###Credits
+This project is made only because of a couple of youtube channels namely 
+1. NetNinja (link: https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg) and
+2. DevEd (link: https://www.youtube.com/channel/UClb90NQQcskPUGDIXsQEz5Q) 
+and also due to my awesome instructor 
+Sir Muhammad Danish Siddique (github_link: https://github.com/mdanishs)
 
-Tests
-Describe and show how to run the tests with code examples.
-
-How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
-
-Contribute
-Let people know how they can contribute into your project. A contributing guideline will be a big plus.
-
-Credits
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project.
-
-Anything else that seems useful
-License
-A short snippet describing the license (MIT, Apache etc)
-
-MIT © Yourname
-
-view rawREADME.md hosted with ❤ by GitHub
+ © Syed Haider Imam Abidi
