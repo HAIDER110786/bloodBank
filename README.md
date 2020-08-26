@@ -6,7 +6,13 @@ This project is made by me as a university project. I was a C# guy but seeing th
 Learning a new language especially when you are shifting from one of your favourite language (C# in my case) can be tough. Now in a university project, one has to deliver the application by hook or by crooks, so i thought that when the pressure would be on me maybe i will learn the MERN stack quicker than normal and in an application like Blood Bank i would learn a lot of new things along the way which is exactly what happen and hence this application is made 
 
 ##Screenshots
-Include logo/demo screenshot etc.
+LoginPage ![](images/loginPage.png)
+signupPage ![](images/signupPage.png)
+dashboardPage ![](images/dashboardPage.png)
+dashboardPage2 ![](images/dashboardPage2.png)
+myProfile ![](images/myProfile.png)
+messageNotificationDropDown ![](images/messageNotificationDropDown.png)
+notificationDropDown ![](images/notificationDropDown)
 
 ##Tech/framework used
 This project uses the MERN stack which is Mongodb, ExpressJS, ReactJS, and NodeJS.
