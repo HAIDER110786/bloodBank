@@ -70,8 +70,16 @@ In this project one can:
 
 ## Installation and Usage
 
-
-Provide step by step series of examples and explanations about how to get a development env running.
+1. Clone the blood bank folder on your preferred location on your local device.
+2. Open the cloned folder in visual studio code.
+3. Open the terminal using ctrl+`.
+4. Go into the frontend directory from the terminal by cd frontend
+5. After getting into the frontend folder, write the command npm install and press enter to download all the required dependancies for the frontend(Might take few minutes).
+6. After installing all the required dependancies, run the command npm start and wait for the developental server to start.
+7. Afterwards go back into the terminal in vs code and click on the + button on the top left of the terminal to open a new terminal.
+8. In the new terminal write cd backend and then write the command npm install and press enter to download all required dependancies for the backend(Might take few minutes).
+9. After installing all the required dependancies, run the command npm start and wait for the logged message "db connected successfully","up and runnng".
+10. Signup with your number and password and start exploring the app.
 
 ### Credits
 
