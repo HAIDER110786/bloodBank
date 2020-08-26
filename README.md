@@ -13,7 +13,7 @@ This project uses the MERN stack which is Mongodb, ExpressJS, ReactJS, and NodeJ
 
 ###Built with
 This project is built in vs code on the Windows 10 platform
-
+    
 ##Features
 In this project one can:
 1. Comment on other people profile
