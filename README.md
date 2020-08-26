@@ -88,10 +88,10 @@ This project is made only because of a couple of youtube channels namely
 and due to my two of of my awesome instructors
 
 
-Sir Muhammad Danish Siddique (github_link: https://github.com/mdanishs) 
+1. Sir Muhammad Danish Siddique (github_link: https://github.com/mdanishs) 
 
 
-Sir Syed Saad Ahmad (github_link: https://github.com/syedsaadahmed)
+2. Sir Syed Saad Ahmad (github_link: https://github.com/syedsaadahmed)
 
 
  © Syed Haider Imam Abidi
