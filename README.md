@@ -12,7 +12,7 @@ dashboardPage ![](images/dashboardPage.png)
 dashboardPage2 ![](images/dashboardPage2.png)
 myProfile ![](images/myProfile.png)
 messageNotificationDropDown ![](images/messageNotificationDropDown.png)
-notificationDropDown ![](images/notificationDropDown)
+notificationDropDown ![](images/notificationDropDown.png)
 
 ##Tech/framework used
 This project uses the MERN stack which is Mongodb, ExpressJS, ReactJS, and NodeJS.
