@@ -77,10 +77,21 @@ Provide step by step series of examples and explanations about how to get a deve
 
 
 This project is made only because of a couple of youtube channels namely 
-1. NetNinja (link: https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg) and
+
+
+1. NetNinja (link: https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)
+
+
 2. DevEd (link: https://www.youtube.com/channel/UClb90NQQcskPUGDIXsQEz5Q) 
-and also due to my two of of my awesome instructors
-Sir Muhammad Danish Siddique (github_link: https://github.com/mdanishs) and
+
+
+and due to my two of of my awesome instructors
+
+
+Sir Muhammad Danish Siddique (github_link: https://github.com/mdanishs) 
+
+
 Sir Syed Saad Ahmad (github_link: https://github.com/syedsaadahmed)
+
 
  © Syed Haider Imam Abidi
