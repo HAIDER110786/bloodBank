@@ -19,32 +19,32 @@ Learning a new language especially when you are shifting from one of your favour
 ![](images/loginPage.png)
 
 
-### signupPage
+### SignupPage
 
 ![](images/signupPage.png)
 
 
-### dashboardPage 
+### DashboardPage 
 
 ![](images/dashboardPage.png)
 
 
-### dashboardPage2
+### DashboardPage2
 
 ![](images/dashboardPage2.png)
 
 
-### myProfile
+### MyProfilePage
 
 ![](images/myProfile.png)
 
 
-### messageNotificationDropDown 
+### MessageNotificationDropDown 
 
 ![](images/messageNotificationDropDown.png)
 
 
-### notificationDropDown
+### NotificationDropDown
 
 ![](images/notificationDropDown.png)
 
