@@ -66,6 +66,7 @@ In this project one can:
 2. Change the profile picture
 3. Request and decline blood donation request
 4. View Other Users Profile
+5. Receive alert messages with a little blue dot on a new message or a new blood donation request
 
 ## Installation and Usage
 
