@@ -12,25 +12,41 @@ Learning a new language especially when you are shifting from one of your favour
 ## Screenshots
 
 
-## LoginPage ![](images/loginPage.png)
 
 
-## signupPage ![](images/signupPage.png)
+### LoginPage
+
+![](images/loginPage.png)
 
 
-## dashboardPage ![](images/dashboardPage.png)
+### signupPage
+
+![](images/signupPage.png)
 
 
-## dashboardPage2 ![](images/dashboardPage2.png)
+### dashboardPage 
+
+![](images/dashboardPage.png)
 
 
-## myProfile ![](images/myProfile.png)
+### dashboardPage2
+
+![](images/dashboardPage2.png)
 
 
-## messageNotificationDropDown ![](images/messageNotificationDropDown.png)
+### myProfile
+
+![](images/myProfile.png)
 
 
-## notificationDropDown ![](images/notificationDropDown.png)
+### messageNotificationDropDown 
+
+![](images/messageNotificationDropDown.png)
+
+
+### notificationDropDown
+
+![](images/notificationDropDown.png)
 
 
 ## Tech/framework used
