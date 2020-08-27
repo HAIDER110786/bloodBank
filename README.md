@@ -80,6 +80,8 @@ In this project one can:
 8. In the new terminal write cd backend and then write the command npm install and press enter to download all required dependancies for the backend(Might take few minutes).
 9. After installing all the required dependancies, run the command npm start and wait for the logged message "db connected successfully","up and runnng".
 10. Signup with your number and password and start exploring the app.
+11. I have not uploaded the .env file, so the secret key for the json web token and the secret link of the mongodb database in the mongodb atlas are not uploaded.
+12. If any one has any query email me at abidihaider89@gmail.com
 
 ### Credits
 
