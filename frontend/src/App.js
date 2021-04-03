@@ -4,18 +4,18 @@ import Login from './components/login/login.js';
 import Dashboard from './components/dashboard/dashboard.js';
 import Profile from './components/profile/profile.js';
 import MyProfile from './components/myProfile/myProfile.js';
-import {BrowserRouter, Route} from 'react-router-dom'; 
+import {BrowserRouter as Router, Route} from 'react-router-dom'; 
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
         <Route exact path="/" component={Login}/>
         <Route exact path="/login" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/dashboard" component={Dashboard}/>
-        <Route path="/profile" component={Profile}/>
-        <Route path="/myProfile" component={MyProfile}/>
-    </BrowserRouter>
+        <Route exact path="/signup" component={Signup}/>
+        <Route exact path="/dashboard" component={Dashboard}/>
+        <Route exact path="/profile/:id" component={Profile}/>
+        <Route exact path="/myProfile" component={MyProfile}/>
+    </Router>
   );
 }
 

@@ -158,12 +158,12 @@
     color: black;
 }
 
-.Upload_Image{
+/* .Upload_Image{
     background: linear-gradient(top, #f9f9f9, #e3e3e3);
     color: white;
     background-color: cornflowerblue;
     padding: 10px;
-}
+} */
 
 .profile .messages .message{
     padding: 2px 20px;

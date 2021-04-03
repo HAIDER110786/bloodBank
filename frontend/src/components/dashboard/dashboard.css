@@ -104,12 +104,12 @@
 }
 
 .dashboard .otherProfiles .no_match{
-    height:20px;
-    width:120px;
     margin:0px auto;
     padding: 20px;
     background-color:rgb(221, 47, 47);
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dashboard .otherProfiles .loading{
@@ -118,4 +118,8 @@
     margin:0px auto;
     margin-top:100px;
     color: black;
+}
+
+.dashboard .otherProfiles a{
+    text-decoration: none;
 }

@@ -17,9 +17,7 @@ mongoose.connect(process.env.DB_CONNECT,{ useNewUrlParser: true, useUnifiedTopol
     if(err)console.log(err);
     console.log('db connected successfully');
     //running the server on port 5000
-    app.listen(5000,()=>{
-        console.log('up and runnng');
-    })
+    app.listen(5000, e => e ? console.log(e) : console.log('up and runnng') )
 })
 
 //using the cors package to deal with the issues of data flow over the network

@@ -1,108 +1,61 @@
-import React,{ useState, useEffect } from 'react';
-import axios from 'axios';
-import {useHistory} from 'react-router-dom';
+import React, {useState} from 'react';
+import { useHistory , Redirect } from 'react-router-dom';
+import UserList from './helperComponentsDashboard/userList';
+import {connect} from 'react-redux';
 import './dashboard.css';
+import { dashboardAction } from '../../store/actions';
 
-export default function Dashboard(){
+function Dashboard({
+    isLoading,
+    users,
+    error,
+    dashboardAction,
+}){
 
+    const [filter,setFilter] = useState('All')
+    
     const history = useHistory();
-
-    const [authenticated,unauthenticate] = useState({
-        token:localStorage.getItem('auth-token')
-    });
-
-    const [initialUsers] = useState({
-        usersinit:[]
-    })
-
-    const [filter,setFilter] = useState({
-        filterBy:'none'
-    })
-
-    const [appState,setAppState] = useState({
-        loading:true,
-        users:[]
-    }) 
-
-    useEffect(()=>{
-        appState.loading = true;
-        axios.get('http://localhost:5000/dashboard',
-        {headers:
-             {Authorization:localStorage.getItem('auth-token')}
-        })
-        .then(res => {
-            appState.loading = false;
-            appState.users = res.data;
-            initialUsers.usersinit = res.data;
-            setAppState({...appState,users: initialUsers.usersinit.map(user=>{
-                return(
-                    <div className="post" onClick={()=>{handleClick(user._id)}} key={user._id}>
-                        <img src={'http://localhost:5000/'+user.dp} height={200} width={200}/>
-                        <div className="mini-profile">
-                            <p>{user.name}</p>
-                            <p>{user.age}</p>
-                            <p>{user.blood_group}</p>
-                        </div>
-                    </div>
-                )
-            })
-        });
-        })
-        .catch(err => console.log(err));
-    },[]);
+    
+    React.useEffect(() => {
+        dashboardAction();
+        return () => window.location.reload();
+    },[dashboardAction])
 
     function handleSelect(e){
-        filter.filterBy = e.target.value;
-        setAppState({
-            loading: false,
-            users: initialUsers.usersinit
-            .filter(user => user.blood_group === filter.filterBy)
-            .map(user=>{
-                    return(
-                            <div className="post" onClick={()=>{handleClick(user._id)}} key={user._id}>
-                                <img src={'http://localhost:5000/'+user.dp} height={200} width={200}/>
-                                <div className="mini-profile">
-                                    <p>{user.name}</p>
-                                    <p>{user.age}</p>
-                                    <p>{user.blood_group}</p>
-                                </div>
-                            </div>
-                        )   
-                    })
-                });
+        const currentfilter = e.target.value;
+        setFilter(currentfilter);
     }
 
-    function handleClick(id){
-        let userData = initialUsers.usersinit.find(user=>user._id===id);
-        if(localStorage.getItem('auth-token')){
-             history.push({
-                pathname: `/profile?id=${userData._id}`,
-                data: 'reload'
-              });
-              window.location.reload();
-        }
-        else{ unauthenticate({token:localStorage.getItem('auth-token')})}
+    const no_match = <div className="no_match"> No Match Found </div>;
+    const no_users = <div className="no_match"> Sorry There Are No Users </div>;
+    const loading =  <div className="loading"> Loading... </div>;
+
+    function showError(error){
+        return <div className="no_match">
+            {
+                error === "Request failed with status code 404"
+                ? 'Error 404'
+                : error
+            }
+        </div>;
     }
 
-    function handleClickForMyProfile(){
-        if(localStorage.getItem('auth-token')){
-             history.push({
-                pathname: `/myProfile`,
-              });
-              window.location.reload();
-        }
-        else{ unauthenticate({token:localStorage.getItem('auth-token')})}
-    }
-
+    const usersList = users.length > 0 
+    ? users
+    .filter(user => filter === 'All' ? user : user.blood_group === filter)
+    .map(user => <UserList users={user} key={user._id} /> )
+    : no_users
+    
     function handleLogout(){
-        localStorage.removeItem('auth-token');
-        unauthenticate({token:localStorage.getItem('auth-token')});
+        localStorage.removeItem('auth-token')
+        history.push('/');
+    }
+
+    console.log(localStorage.getItem);
+    if(!localStorage.getItem('auth-token')){
+        return <Redirect to='/'/>
     }
     
-    if(!authenticated.token){
-        window.location = ('/');
-    }
-
     return(
         <div className="dashboard">
             <div className="header">
@@ -110,14 +63,19 @@ export default function Dashboard(){
                 <div className="spacing"></div>
                 <div className="links">
                     <ul>
-                        <li onClick={handleClickForMyProfile}>Your Profile</li>
+                        <li onClick={()=>history.push('/myProfile')}>Your Profile</li>
                         <li onClick={handleLogout}>Log Out</li>
                     </ul>
                 </div>
             </div>
             <div className="searchBar">
-                <select defaultValue={'Default'} onChange={handleSelect}>
-                    <option value="Default" disabled>FILTER YOUR REQUIRED BLOOD GROUP</option>
+                <select defaultValue={'Default'} 
+                onChange={handleSelect}
+                >
+                    <option value="Default" disabled>
+                        FILTER YOUR REQUIRED BLOOD GROUP
+                    </option>
+                    <option value="All">All</option>
                     <option value="A+">A+</option>
                     <option value="B+">B+</option>
                     <option value="AB+">AB+</option>
@@ -129,12 +87,28 @@ export default function Dashboard(){
                 </select>
             </div>
             <div className="otherProfiles">
-                {appState.loading ? (
-                    <div className="loading">Loading...</div>
-                ) : ( 
-                    appState.users.length>0 ? (appState.users) : (<div className="no_match">No Match Found</div>)
-                )}
+                {
+                    isLoading 
+                    ? loading
+                    : error 
+                      ? showError(error)
+                      : usersList.length > 0 
+                        ? usersList 
+                        : no_match
+                }
             </div>
         </div>
     ) 
 }
+
+const mapStateToProps = state => ({
+    isLoading: state.dashboardReducer.isLoading,
+    users: state.dashboardReducer.users,
+    error: state.dashboardReducer.error,
+})
+
+const mapDispatchToProps = {
+    dashboardAction,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

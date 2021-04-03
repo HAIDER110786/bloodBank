@@ -1,28 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import {useHistory,Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {loginAction,resetLoginAction} from '../../store/actions';
 import './login.css';
-import {useHistory} from 'react-router-dom';
 
-export default function Login(){   
+function Login(props){
 
-    const history = useHistory();    
+    const {
+        loginAction,
+        resetLoginAction,
+        denied,
+        error,
+        isAuthenticated
+    } = props;
 
+    const [LoginButton,DisableLoginButton] = useState(false);
+    
+    const history = useHistory();
+    
     const [credentials,setCredentials] = useState({
         number:'',
         password:'',
     });
 
-    const [LoggedInButton,DisableLoggedInButton] = useState(false);
-
     useEffect(() => {
         if(history.location.data==="logged_in"){
             setTimeout(()=>{
-                alert('registration successfull! Please re-enter your credentials to log in');
+                alert('registration successfull!');
             },16);
         }
-    }, [])
+    }, [history.location.data])
 
-    const handleChange = (e) => {
+    useEffect(() => {
+        resetLoginAction();
+        DisableLoginButton(false);
+    },[
+        denied,
+        error,
+        isAuthenticated,
+        resetLoginAction
+    ])
+    
+    if(denied){
+        alert(denied);
+    }
+
+    if(error){
+        alert(error);
+    }
+
+    if(isAuthenticated){
+        return <Redirect to='/dashboard' />
+    }
+
+    const handleChange = e => {
         setCredentials({
             ...credentials,
             [e.target.name] : e.target.value
@@ -31,39 +62,63 @@ export default function Login(){
 
     const HandleSubmit = (e) =>{
         e.preventDefault();
-        DisableLoggedInButton(true);
-        axios.post('http://localhost:5000/login',credentials)
-        .then((res)=>{
-            const {denied} = res.data;
-            if(!denied){
-                localStorage.setItem('auth-token',res.data);
-                window.location = ('/dashboard');
-            }
-            else{
-                alert(denied);
-            }
-            DisableLoggedInButton(false);
-        }).catch((err)=>console.log(err));
+        loginAction(credentials);
+    }
+    
+    function handleSignUp(e){
+        e.preventDefault();
+        history.push('/signup')
     }
 
     if(localStorage.getItem('auth-token')){
-        window.location = ('/dashboard');
+        return <Redirect to='/dashboard'/>
     }
-
-    function handleSignUp(e){
-        e.preventDefault();
-        history.push({pathname:'/signup'})
-    }
-
+    
     return(
         <div className="loginDiv">
-            <form onSubmit={HandleSubmit}>
+            <form 
+                onSubmit={HandleSubmit}
+            >
                 <h1>BLOOD BANK LOGIN</h1>
-                <input type="text" name="number" placeholder="Enter Your Phone Number" onChange={handleChange} required/>
-                <input type="password" name="password" placeholder="Enter Your Password" onChange={handleChange} required/>
-                <button disabled={LoggedInButton} type="submit">LOGIN</button>
-                <p>Don't have an account ?<span onClick={handleSignUp}>Signup</span></p>
+                <input 
+                    type="text" 
+                    name="number" 
+                    placeholder="Enter Your Phone Number" 
+                    onChange={handleChange} 
+                    required
+                />
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Enter Your Password" 
+                    onChange={handleChange} 
+                    required
+                />
+                <button 
+                    disabled={LoginButton} 
+                    type="submit"
+                >
+                    LOGIN
+                </button>
+                <p> Don't have an account ?
+                    <span onClick={handleSignUp}>
+                        Signup
+                    </span>
+                </p>
             </form>
         </div>
     )
 }
+
+const mapStateToProps = state => ({
+    error: state.loginReducer.error,
+    denied: state.loginReducer.denied,
+    status: state.loginReducer.status, 
+})
+
+const mapDispatchToProps = {
+    loginAction,
+    resetLoginAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

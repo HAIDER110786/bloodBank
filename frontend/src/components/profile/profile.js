@@ -1,205 +1,185 @@
-import React,{ useState,useEffect } from 'react';
-import axios from 'axios';
+import React,{ useState , useEffect } from 'react';
+import { useParams , Redirect, useHistory } from 'react-router-dom';
+import uuid from 'react-uuid';
+import {
+    profileMakeBloodRequest,
+    profileUpdateCommentsCommentRecordsAndFetchNewComments,
+    profileBioRecordsCommentsRequests
+} from '../../store/actions';
+import { connect } from 'react-redux';
 import './profile.css';
 
-export default function Profile(){
-    const customAxios = axios.create({
-        headers: {'Authorization':localStorage.getItem('auth-token')}
-    });      
+function Profile(props){
+
+    const {
+        userData,
+        userDataLoading,
+        records,
+        recordsLoading,
+        comments,
+        commentsLoading,
+        RequestedBlood,
+        profileMakeBloodRequest,
+        profileUpdateCommentsCommentRecordsAndFetchNewComments,
+        profileBioRecordsCommentsRequests
+    } = props;
+
+    const history = useHistory();
+
+    const {id} = useParams();
     
     const [requestbutton,disableRequestbutton] = useState(false);
-    const [postbutton,disablePostbutton] = useState(false);
-
-    const params = window.location.search;
-    const ParamsList = new URLSearchParams(params);
-    const id = ParamsList.get('id');
-
-    if(!id){
-        window.location = '/dashboard';
-    }
-
-    const [user,setUser] = useState({
-        loading:true,
-        data:null
-    });
-
-    const [authenticated,unauthenticate] = useState({
-        token:localStorage.getItem('auth-token')
-    });
-
-    const [records,updateRecords] = useState('');
-
-    const [comment,updateComments] = useState({
-        data:[],
-        loading:true
-    })
-    
-    const [Requested,setRequest] = useState(true);
+    const [postCommentbutton,disablePostCommentbutton] = useState(false);
+    const [clearCommentInput,resetCommentInput] = useState('');
 
     useEffect(() => {
-        setUser({...user,loading:true});
-        updateComments({...comment,loading:true});
-        axios.all([
-            customAxios.post('http://localhost:5000/user',{id}),
-            customAxios.get('http://localhost:5000/records/'+id),
-            customAxios.get('http://localhost:5000/comments/'+id),
-            customAxios.get('http://localhost:5000/mutualRequests/'+id),
-        ])
-        .then(res => {
-            setUser({loading:false,data : res[0].data});
-            if(res[1].data.recordsArray){
-                if(res[1].data.recordsArray.length > 0){
-                    updateRecords(res[1].data.recordsArray.map(currentRecord=>{
-                        return <div className="individualRecord"><p>{currentRecord}</p></div>
-                    }));
-                }
-                else{
-                    updateRecords(<div style={{display:'flex',height:'100%',justifyContent:'center',alignItems:'center',justifyContent:'center',color:'white',marginTop:-30}}>You haven't accepted or rejected any blood donation records yet</div>);
-                }
-            }
-            if(res[2].data){
-                updateComments({loading:false,data:res[2].data.map(comments=>{
-                    return <div className="message">
-                                <img src={'http://localhost:5000/'+comments.dp} style={{marginRight:10}} width={30} height={30} alt="user name"/>
-                                <div>
-                                    <h3>{comments.name}</h3>
-                                    <p style={{color:'black'}}>{comments.comment}</p>
-                                </div>
-                            </div>                
-                })});
-            }
-            else{
-                updateComments({loading:false,data:<div style={{height:300,color:'rgb(211, 47, 47)',display:'flex',height:350,alignItems:'center',justifyContent:'center'}}><p style={{margin:0}}>You dont have any comments yet</p></div>})
-            }
-            setRequest(res[3].data.requested);
-        })
-        .catch(err => console.log(err));
-    }, [])
+        profileBioRecordsCommentsRequests(id);
+        return () => window.location.reload();
+    }, [profileBioRecordsCommentsRequests,id])
 
     function handleClick(){
-        if(localStorage.getItem('auth-token')){
-             window.location = ('/dashboard');
-        }
-        else{ unauthenticate({token:localStorage.getItem('auth-token')})}
+        localStorage.getItem('auth-token')
+        ? history.push('/dashboard')
+        : history.push('/')
     }
 
-    function handleRequest(e){
+    function handleRequest(){
         disableRequestbutton(true);
-        axios
-        .post('http://localhost:5000/requests',{
-            from:user.data,
-        },{
-            headers:{
-                Authorization:localStorage.getItem('auth-token')
-            }
-        })
-        .then(res => {
-            disableRequestbutton(false);
-            setRequest(true);
-        })
-        .catch(err => console.log(err));
-        
+        profileMakeBloodRequest(userData);
     }
 
     function postComment(e){
         const newComment = e.target.previousElementSibling.value.trim();
         if(newComment !== ''){
-            disablePostbutton(true);
+            disablePostCommentbutton(true);
             resetCommentInput('');
-            updateComments({...comment,loading:true});        
-            axios.all([
-                customAxios.post('http://localhost:5000/comments/'+id,{newComment}),
-                customAxios.post('http://localhost:5000/commentRecords/'+id)
-            ])
-            .then(() =>{
-                customAxios.get('http://localhost:5000/comments/'+id)
-                .then(res => {       
-                    resetCommentInput('');
-                    disablePostbutton(false);
-                    updateComments({loading:false,data:res.data.map(comments=>{
-                        return <div className="message">
-                        <img src={'http://localhost:5000/'+comments.dp} style={{marginRight:10}} width={30} height={30} alt="user name"/>
-                        <div>
-                            <h3>{comments.name}</h3>
-                            <p style={{color:'black'}}>{comments.comment}</p>
-                        </div>
-                    </div>  
-                })});
-                })
-            })
-            .catch(err =>{ 
-                console.log(err)
-            });
+            profileUpdateCommentsCommentRecordsAndFetchNewComments(id,newComment)
         }
         else{
             alert('no empty comments allowed');
         }
     }
 
-    if(!authenticated.token){
-        window.location = '/';
-    }
+    if(!localStorage.getItem('auth-token')) window.location = '/';
 
     function doIT(e){
         resetCommentInput(e.target.value);
     }
 
-    
-    const [clearCommentInput,resetCommentInput] = useState(null);
+    if(!id) return <Redirect to='/dashboard' />;
 
     return (
         <div className="profile">
             <div className="header">
                 <div onClick={handleClick} className="backArrow">&#x2190;</div>
                 <div className="space"></div>
-            </div>                 
-            {user.loading?(
-                    <div className="loading">Loading...</div>
-                ):(
+            </div>
             <div className="fullProfile">
-                <div className="userDetails">
-                    <div>
-                        <img src={'http://localhost:5000/'+user.data.dp} alt="This is the bio pic" height={200} width={200}/>
-                        <p>{user.data.name}</p>
-                        <p>{user.data.age}</p>
-                        <p>{user.data.number}</p>
-                        <p>{user.data.city}</p>
-                        <p>{user.data.blood_group}</p>
-                        <p>{user.data.requirements}</p>
-                        {Requested ? (
-                            <button disabled={true} className="request">Requested</button>
-                        ) : (
-                            <button disabled={requestbutton} onClick={handleRequest} className="request">Request Blood</button>
-                        )}
-                    </div>
-                </div>
+                {
+                    userDataLoading
+                    ?
+                    (<div style={{ width: '23.14%', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</div>)
+                    :
+                    (<div className="userDetails">
+                        <div>
+                            <img src={'http://localhost:5000/' + userData.dp} alt="This is the bio pic" height={200} width={200} />
+                            <p>{userData.name}</p>
+                            <p>{userData.age}</p>
+                            <p>{userData.number}</p>
+                            <p>{userData.city}</p>
+                            <p>{userData.blood_group}</p>
+                            <p>{userData.requirements}</p>
+                            {
+                                RequestedBlood
+                                ? <button disabled={true} className="request">Requested</button>
+                                : <button disabled={requestbutton} onClick={handleRequest} className="request">Request Blood</button>
+                            }
+                        </div>
+                    </div>)
+                }
                 <div className="comments">
                     <div className="posts">
                         <div className="heading"><h2>Comments</h2></div>
                         <div className="messages">
-                            {comment.loading?(
-                                <div style={{height:350,display:'flex',alignItems:'center',justifyContent:'center',color:'rgb(211, 47, 47)'}}>Loading...</div>
-                            ):(
-                                comment.data
-                            )}
+                            {
+                                commentsLoading
+                                ? 
+                                (<div style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgb(211, 47, 47)' }}>Loading...</div>)
+                                : 
+                                (comments
+                                ? 
+                                (comments.map(individualCommentDetails => {
+                                        return(
+                                            <div key={uuid()} className="message">
+                                                <img src={'http://localhost:5000/' + individualCommentDetails.dp} style={{ marginRight: 10 }} width={30} height={30} alt="user name" />
+                                                <div>
+                                                    <h3>{individualCommentDetails.name}</h3>
+                                                    <p style={{ color: 'black' }}>{individualCommentDetails.comment}</p>
+                                                </div>
+                                            </div>
+                                        )
+                                }))
+                                : 
+                                (<div style={{ color: 'rgb(211, 47, 47)', display: 'flex', height: 350, alignItems: 'center', justifyContent: 'center' }}><p style={{ margin: 0 }}>You dont have any comments yet</p></div>))
+                            }
                         </div>
                     </div>
                     <div className="input">
-                        <input value={clearCommentInput} onChange={doIT} type="text"/><button disabled={postbutton} onClick={postComment}>POST</button>
+                        <input
+                            value={clearCommentInput}
+                            onChange={doIT} 
+                            type="text"
+                        />
+                        <button
+                            disabled={postCommentbutton}
+                            onClick={postComment}
+                        >
+                            POST
+                        </button>
                     </div>
                 </div>
                 <div className="record">
                     <h2>Record</h2>
-                    {records.length>0 ? (
-                        records
-                    ):(
-                        <div style={{display:'flex',height:'100%',justifyContent:'center',alignItems:'center',justifyContent:'center',color:'white',marginTop:-30}}>
+                    {
+                        recordsLoading
+                        ? 
+                        (<div style={{ height: '85%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading records...</div>)
+                        :
+                        (records.length > 0
+                        ?
+                        (records.map(record => {
+                            return(
+                                <div key={uuid()} className="individualRecord">
+                                    <p>{record}</p>
+                                </div>
+                            )
+                        }))
+                        : 
+                        (<div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'white', marginTop: -30 }}>
                             This user does not have any blood donation records yet
-                        </div>
-                    )}
+                        </div>))
+                    }
                 </div>
             </div>
-            )}
         </div>
     )
 }
+
+const mapStateToProps = state => ({
+    userData : state.profileReducer.userData ,
+    userDataLoading : state.profileReducer.userDataLoading ,
+    records : state.profileReducer.records ,
+    recordsLoading : state.profileReducer.recordsLoading ,
+    comments : state.profileReducer.comments ,
+    commentsLoading : state.profileReducer.commentsLoading ,
+    RequestedBlood : state.profileReducer.RequestedBlood ,
+    error : state.profileReducer.error ,
+})
+
+const mapDispatchToProps = {
+    profileMakeBloodRequest,
+    profileUpdateCommentsCommentRecordsAndFetchNewComments,
+    profileBioRecordsCommentsRequests
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
