@@ -1,9 +1,10 @@
 import React,{ useState,useEffect } from 'react';
 import uuid from 'react-uuid';
-import RequestNotificationComponent from './helperComponents/requestNotificationComponent';
-import NewCommentNotificationComponent from './helperComponents/newCommentNotificationComponent';
-import CommentComponent from './helperComponents/commentComponent';
-import RecordComponent from './helperComponents/recordComponent';
+import RequestNotificationComponent from '../../utils/profileUtils/requestNotificationComponent';
+import NewCommentNotificationComponent from '../../utils/profileUtils/newCommentNotificationComponent';
+import CommentComponent from '../../utils/profileUtils/commentComponent';
+import RecordComponent from '../../utils/profileUtils/recordComponent';
+import GeneralProfileSection from '../../utils/profileUtils/generalProfileSection';
 import { 
     myProfileBioRecordsCommentsRequestsMessages,
     hideAlert,
@@ -16,7 +17,6 @@ import {
 } from '../../store/actions';
 import { connect } from 'react-redux';
 import './myProfile.css';
-import ProfileSection from './helperComponents/profileSection';
 
 function MyProfile({
     userData,
@@ -198,7 +198,7 @@ function MyProfile({
                     )
                     :
                     (
-                        <ProfileSection userData={userData} handleDPchange={handleDPchange} DPButton={DPButton}/>
+                        <GeneralProfileSection userData={userData[0]} handleDPchange={handleDPchange} DPButton={DPButton}/>
                     )
                 }
                 <div className="comments">
@@ -211,7 +211,13 @@ function MyProfile({
                                     <div style={{height:350,display:'flex',alignItems:'center',justifyContent:'center',color:'rgb(211, 47, 47)'}}>Loading...</div>
                                 )
                                 : (
-                                    comments.map(comment=><CommentComponent key={uuid()} comment={comment}/>)
+                                    comments
+                                    ? (
+                                        comments.map(comment=><CommentComponent key={uuid()} comment={comment}/>)
+                                    )
+                                    : (
+                                        <div style={{ color: 'rgb(211, 47, 47)', display: 'flex', height: 350, alignItems: 'center', justifyContent: 'center' }}><p style={{ margin: 0 }}>You dont have any comments yet</p></div>
+                                    )
                                 )
                             }
                         </div>
@@ -234,10 +240,12 @@ function MyProfile({
                         (
                             (records && records.length > 0) 
                             ?(
-                             records.map(record=><RecordComponent key={uuid()} record={record}/>)
+                                records.map(record=><RecordComponent key={uuid()} record={record}/>)
                             )
                             :(
-                                 <div style={{display:'flex',height:'100%',justifyContent:'center',alignItems:'center',color:'white',marginTop:-30}}>You haven't accepted or rejected any blood donation records yet</div>
+                                <div style={{display:'flex',height:'100%',justifyContent:'center',alignItems:'center',color:'white',marginTop:-30}}>
+                                    You haven't accepted or rejected any blood donation records yet
+                                </div>
                             )
                         )
                     }

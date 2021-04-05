@@ -1,6 +1,9 @@
 import React,{ useState , useEffect } from 'react';
 import { useParams , Redirect, useHistory } from 'react-router-dom';
 import uuid from 'react-uuid';
+import CommentComponent from '../../utils/profileUtils/commentComponent';
+import RecordComponent from '../../utils/profileUtils/recordComponent';
+import GeneralProfileSection from '../../utils/profileUtils/generalProfileSection';
 import {
     profileMakeBloodRequest,
     profileUpdateCommentsCommentRecordsAndFetchNewComments,
@@ -9,20 +12,18 @@ import {
 import { connect } from 'react-redux';
 import './profile.css';
 
-function Profile(props){
-
-    const {
-        userData,
-        userDataLoading,
-        records,
-        recordsLoading,
-        comments,
-        commentsLoading,
-        RequestedBlood,
-        profileMakeBloodRequest,
-        profileUpdateCommentsCommentRecordsAndFetchNewComments,
-        profileBioRecordsCommentsRequests
-    } = props;
+function Profile({
+    userData,
+    userDataLoading,
+    records,
+    recordsLoading,
+    comments,
+    commentsLoading,
+    RequestedBlood,
+    profileMakeBloodRequest,
+    profileUpdateCommentsCommentRecordsAndFetchNewComments,
+    profileBioRecordsCommentsRequests
+}){
 
     const history = useHistory();
 
@@ -78,24 +79,13 @@ function Profile(props){
                 {
                     userDataLoading
                     ?
-                    (<div style={{ width: '23.14%', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</div>)
+                    (
+                        <div style={{ width: '23.14%', color: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</div>
+                    )
                     :
-                    (<div className="userDetails">
-                        <div>
-                            <img src={'http://localhost:8000/' + userData.dp} alt="This is the bio pic" height={200} width={200} />
-                            <p>{userData.name}</p>
-                            <p>{userData.age}</p>
-                            <p>{userData.number}</p>
-                            <p>{userData.city}</p>
-                            <p>{userData.blood_group}</p>
-                            <p>{userData.requirements}</p>
-                            {
-                                RequestedBlood
-                                ? <button disabled={true} className="request">Requested</button>
-                                : <button disabled={requestbutton} onClick={handleRequest} className="request">Request Blood</button>
-                            }
-                        </div>
-                    </div>)
+                    (
+                        <GeneralProfileSection userData={userData} RequestedBlood={RequestedBlood} requestbutton={requestbutton} handleRequest={handleRequest}/>
+                    )
                 }
                 <div className="comments">
                     <div className="posts">
@@ -106,21 +96,15 @@ function Profile(props){
                                 ? 
                                 (<div style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgb(211, 47, 47)' }}>Loading...</div>)
                                 : 
-                                (comments
-                                ? 
-                                (comments.map(individualCommentDetails => {
-                                        return(
-                                            <div key={uuid()} className="message">
-                                                <img src={'http://localhost:8000/' + individualCommentDetails.dp} style={{ marginRight: 10 }} width={30} height={30} alt="user name" />
-                                                <div>
-                                                    <h3>{individualCommentDetails.name}</h3>
-                                                    <p style={{ color: 'black' }}>{individualCommentDetails.comment}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                }))
-                                : 
-                                (<div style={{ color: 'rgb(211, 47, 47)', display: 'flex', height: 350, alignItems: 'center', justifyContent: 'center' }}><p style={{ margin: 0 }}>You dont have any comments yet</p></div>))
+                                (
+                                    comments
+                                    ? (
+                                        comments.map(comment=><CommentComponent key={uuid()} comment={comment}/>)
+                                    )
+                                    : (
+                                        <div style={{ color: 'rgb(211, 47, 47)', display: 'flex', height: 350, alignItems: 'center', justifyContent: 'center' }}><p style={{ margin: 0 }}>You dont have any comments yet</p></div>
+                                    )
+                                )
                             }
                         </div>
                     </div>
@@ -143,21 +127,21 @@ function Profile(props){
                     {
                         recordsLoading
                         ? 
-                        (<div style={{ height: '85%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading records...</div>)
+                        (
+                            <div style={{ height: '85%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading records...</div>
+                        )
                         :
-                        (records.length > 0
-                        ?
-                        (records.map(record => {
-                            return(
-                                <div key={uuid()} className="individualRecord">
-                                    <p>{record}</p>
+                        (
+                            (records && records.length > 0) 
+                            ?(
+                                records.map(record=><RecordComponent key={uuid()} record={record}/>)
+                            )
+                            :(
+                                <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'white', marginTop: -30 }}>
+                                    This user does not have any blood donation records yet
                                 </div>
                             )
-                        }))
-                        : 
-                        (<div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'white', marginTop: -30 }}>
-                            This user does not have any blood donation records yet
-                        </div>))
+                        )
                     }
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory , Redirect } from 'react-router-dom';
-import UserList from './helperComponentsDashboard/userList';
+import UserList from '../../utils/dashboardUtils/userList';
 import {connect} from 'react-redux';
 import './dashboard.css';
 import { dashboardAction } from '../../store/actions';
