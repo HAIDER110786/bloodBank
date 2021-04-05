@@ -4,7 +4,7 @@ export function dashboardAction(){
     return dispatch => {
         dispatch({type:'LOADING'});
         axios
-        .get('http://localhost:5000/dashboard',
+        .get('http://localhost:8000/dashboard',
             {
                 headers:{
                     Authorization:localStorage.getItem('auth-token')

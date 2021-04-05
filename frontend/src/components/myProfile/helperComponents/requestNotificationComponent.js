@@ -4,7 +4,7 @@ function RequestComponent({ note , Response }) {
     return (
         <div className="notify" key={note._id}>
             <div style={{ display: 'flex' }}>
-                <img src={'http://localhost:5000/' + note.dp} style={{ marginRight: 10 }} height={30} width={30} alt="dp" />
+                <img src={'http://localhost:8000/' + note.dp} style={{ marginRight: 10 }} height={30} width={30} alt="dp" />
                 <p style={{ margin: 0, marginTop: 5 }}>{note.name} asked you for blood</p>
             </div>
             <div className="response">

@@ -82,7 +82,7 @@ function Profile(props){
                     :
                     (<div className="userDetails">
                         <div>
-                            <img src={'http://localhost:5000/' + userData.dp} alt="This is the bio pic" height={200} width={200} />
+                            <img src={'http://localhost:8000/' + userData.dp} alt="This is the bio pic" height={200} width={200} />
                             <p>{userData.name}</p>
                             <p>{userData.age}</p>
                             <p>{userData.number}</p>
@@ -111,7 +111,7 @@ function Profile(props){
                                 (comments.map(individualCommentDetails => {
                                         return(
                                             <div key={uuid()} className="message">
-                                                <img src={'http://localhost:5000/' + individualCommentDetails.dp} style={{ marginRight: 10 }} width={30} height={30} alt="user name" />
+                                                <img src={'http://localhost:8000/' + individualCommentDetails.dp} style={{ marginRight: 10 }} width={30} height={30} alt="user name" />
                                                 <div>
                                                     <h3>{individualCommentDetails.name}</h3>
                                                     <p style={{ color: 'black' }}>{individualCommentDetails.comment}</p>

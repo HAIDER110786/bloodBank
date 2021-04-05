@@ -15,11 +15,11 @@ export function myProfileBioRecordsCommentsRequestsMessages(){
         dispatch({type:'LOADING_MY_COMMENTS'});
         
         axios.all([
-            customAxios.get('http://localhost:5000/myProfile'),
-            customAxios.get('http://localhost:5000/records'),
-            customAxios.get('http://localhost:5000/comments'),
-            customAxios.get('http://localhost:5000/newRequest'),
-            customAxios.get('http://localhost:5000/newComment'),
+            customAxios.get('http://localhost:8000/myProfile'),
+            customAxios.get('http://localhost:8000/records'),
+            customAxios.get('http://localhost:8000/comments'),
+            customAxios.get('http://localhost:8000/newRequest'),
+            customAxios.get('http://localhost:8000/newComment'),
         ])
         .then( r => {
             const myData = r[0].data;
@@ -35,7 +35,7 @@ export function myProfileBioRecordsCommentsRequestsMessages(){
             //2.
             /* make a dispatch making recordLoading as false and set the data as the
             myRecords and do the mapping thing in the component itself*/
-            myRecords && dispatch({type:'SHOW_MY_RECORDS',payload:myRecords});
+            dispatch({type:'SHOW_MY_RECORDS',payload:myRecords});
 
             //3.
             /* make a dispatch making commentLoading as false and data set the data as the res
@@ -61,10 +61,10 @@ export function appendNewComment(comment){
     return dispatch => {
         dispatch({type:'LOADING_MY_COMMENTS'});
         customAxios
-        .post('http://localhost:5000/comments',{comment})
+        .post('http://localhost:8000/comments',{comment})
         .then(() =>{  
             customAxios
-            .get('http://localhost:5000/comments')
+            .get('http://localhost:8000/comments')
             .then(r => dispatch({type:'SHOW_MY_COMMENTS',payload:r.data}))
         })
         .catch(e => console.error(e));
@@ -73,8 +73,8 @@ export function appendNewComment(comment){
 
 export function changeDP(file){
     return dispatch => {
-        axios
-        .post('http://localhost:5000/profile/images',
+        customAxios
+        .post('http://localhost:8000/profile/images',
         file,
         {
             header:{
@@ -84,7 +84,7 @@ export function changeDP(file){
         })
         .then( _ => {
             dispatch({type:'LOADING_MY_DATA'});
-            customAxios.get('http://localhost:5000/myProfile')
+            customAxios.get('http://localhost:8000/myProfile')
             .then(r=>dispatch({type:'SHOW_MY_DATA',payload:r.data}))
             .catch(e=>console.error(e));
         })
@@ -97,13 +97,13 @@ export function hideAlert(alertType){
         alertType === 'HIDE_BLOOD_REQUEST_ALERT'
         ? (
             customAxios
-            .post('http://localhost:5000/hideRequests')
+            .post('http://localhost:8000/hideRequests')
             .then( _ =>  dispatch({type:'HIDE_BLOOD_REQUEST_ALERT'}))
             .catch( e => console.error(e) )
         )
         : (
             customAxios
-            .post('http://localhost:5000/hideComments')
+            .post('http://localhost:8000/hideComments')
             .then( _ =>  dispatch({type:'HIDE_NEW_COMMENT_ALERT'}))
             .catch( e => console.error(e) )
         )
@@ -124,21 +124,21 @@ export function requestResponse(id,response,requester,requestee){
         dispatch({type:'LOADING_REQ_LIST'});
 
         axios.all([
-            customAxios.delete('http://localhost:5000/requests/'+id),
-            customAxios.post('http://localhost:5000/records/'+response,
+            customAxios.delete('http://localhost:8000/requests/'+id),
+            customAxios.post('http://localhost:8000/records/'+response,
             {
                 requester:requester,
                 date:moment().format('LLLL'),
                 requestee:requestee
             }),
-            customAxios.get('http://localhost:5000/notifications')
+            customAxios.get('http://localhost:8000/bloodRequestNotification')
             //the 4th axios request is moved down and in the future combine the 4th request and the request 
             //above (3rd request)
         ])
         .then(r=>{
             dispatch({type:'SHOW_REQ_LIST',payload:r[2].data});
             dispatch({type:'LOADING_MY_RECORDS'});
-            customAxios.get('http://localhost:5000/records')
+            customAxios.get('http://localhost:8000/records')
             .then(r=> r.data.recordsArray && dispatch({type:'SHOW_MY_RECORDS',payload:r.data.recordsArray}))
             .catch(e=>console.error(e))
         })
@@ -151,7 +151,7 @@ export function showRequests(){
     return dispatch => {
         dispatch({type:'LOADING_REQ_LIST'});
 
-        axios.get('http://localhost:5000/notifications',{
+        axios.get('http://localhost:8000/bloodRequestNotification',{
             headers: {
                 Authorization:localStorage.getItem('auth-token')
             }
@@ -171,7 +171,7 @@ export function showComments(){
     return dispatch => {
         dispatch({type:'LOADING_COMMENT_LIST'})
 
-        axios.get('http://localhost:5000/comments',{
+        axios.get('http://localhost:8000/comments',{
             headers: {Authorization:localStorage.getItem('auth-token')}
         })
         .then(r => {

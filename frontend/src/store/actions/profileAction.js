@@ -19,10 +19,10 @@ export function profileBioRecordsCommentsRequests(id){
         dispatch({type:'LOADING_COMMENTS'});
         
         axios.all([
-            customAxios.post('http://localhost:5000/user',{id}),
-            customAxios.get('http://localhost:5000/records/'+id),
-            customAxios.get('http://localhost:5000/comments/'+id),
-            customAxios.get('http://localhost:5000/mutualRequests/'+id)
+            customAxios.get('http://localhost:8000/user/'+id),
+            customAxios.get('http://localhost:8000/records/'+id),
+            customAxios.get('http://localhost:8000/comments/'+id),
+            customAxios.get('http://localhost:8000/mutualRequests/'+id)
         ])
         .then( r => {
             const userData = r[0].data;
@@ -57,7 +57,7 @@ export function profileMakeBloodRequest(userData){
 
     return dispatch => {
         axios
-        .post('http://localhost:5000/requests',{
+        .post('http://localhost:8000/requests',{
             from:userData,
         },{
             headers:{
@@ -81,12 +81,12 @@ export function profileUpdateCommentsCommentRecordsAndFetchNewComments(id,newCom
 
     return dispatch => {
         axios.all([
-            customAxios.post('http://localhost:5000/comments/'+id,{newComment}),
-            customAxios.post('http://localhost:5000/commentRecords/'+id)
+            customAxios.post('http://localhost:8000/comments/'+id,{newComment}),
+            customAxios.post('http://localhost:8000/commentRecords/'+id)
         ])
         .then(()=>{
             dispatch({type:'LOADING_COMMENTS'});
-            customAxios.get('http://localhost:5000/comments/'+id)
+            customAxios.get('http://localhost:8000/comments/'+id)
             .then(r => dispatch({type:'SHOW_COMMENTS',payload:{profileComments:r.data}}))
             .catch(e => dispatch({type:'SHOW_PROFILE_COMMENTS_ERROR',payload:e}))
         })

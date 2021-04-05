@@ -232,7 +232,7 @@ function MyProfile({
                         )
                         :
                         (
-                            records.length > 0 
+                            (records && records.length > 0) 
                             ?(
                              records.map(record=><RecordComponent key={uuid()} record={record}/>)
                             )

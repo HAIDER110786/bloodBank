@@ -50,8 +50,7 @@ function Dashboard({
         localStorage.removeItem('auth-token')
         history.push('/');
     }
-
-    console.log(localStorage.getItem);
+    
     if(!localStorage.getItem('auth-token')){
         return <Redirect to='/'/>
     }
